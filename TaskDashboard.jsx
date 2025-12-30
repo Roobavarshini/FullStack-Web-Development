@@ -1,0 +1,112 @@
+import React, { useState } from "react";
+
+function TaskDashboard() {
+  const [task, setTask] = useState("");
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (e) => {
+    e.preventDefault();
+    if (task.trim() === "") return;
+    setTasks([...tasks, task]);
+    setTask("");
+  };
+
+  const removeTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+  };
+
+  return (
+    <div className="task-container">
+      <h2>🗂️ Task List Dashboard</h2>
+
+      <form onSubmit={addTask}>
+        <input
+          type="text"
+          placeholder="Enter new task"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <button type="submit">Add Task</button>
+      </form>
+
+      <ul>
+        {tasks.length === 0 && <p>No tasks added yet</p>}
+
+        {tasks.map((t, index) => (
+          <li key={index}>
+            {t}
+            <button onClick={() => removeTask(index)}>❌</button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Internal CSS */}
+      <style>{`
+        .task-container {
+          width: 420px;
+          margin: 40px auto;
+          padding: 20px;
+          background: #f5f7fa;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          text-align: center;
+        }
+
+        form {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 15px;
+        }
+
+        input {
+          flex: 1;
+          padding: 10px;
+          border-radius: 6px;
+          border: 1px solid #aaa;
+        }
+
+        button {
+          padding: 10px 12px;
+          background: #4a4aff;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+
+        button:hover {
+          background: #2c2cff;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          text-align: left;
+        }
+
+        li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px;
+          margin-bottom: 6px;
+          background: white;
+          border-radius: 6px;
+        }
+
+        li button {
+          background: red;
+          padding: 5px 8px;
+          font-size: 14px;
+        }
+
+        li button:hover {
+          background: darkred;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default TaskDashboard;
